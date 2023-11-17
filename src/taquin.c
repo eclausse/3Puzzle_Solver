@@ -124,6 +124,10 @@ position_t get_real_position(const uint8_t number) {
     return solved_game[number - 1];
 }
 
+uint8_t manhattan(position_t a, position_t b) {
+    return abs(a.x - b.x) + abs(a.y - b.y);
+}
+
 uint8_t heristic(const game_t g) {
     uint8_t score_total = 0, value, score_temp;
     position_t wanted_position;
