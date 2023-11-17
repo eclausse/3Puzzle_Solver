@@ -1,0 +1,25 @@
+# Projet Taquin A*
+
+# Compilation
+make
+
+# Execution
+./bin/taquin_solver
+
+# Documentation
+make doc
+
+# Archivage
+make tar
+
+# Nettoyage
+make clean
+
+# Sauvegarde du code
+make save
+
+# Restoration du code
+make restore
+
+# Auteur
+Evan Clausse ING2 GSI Groupe 1
