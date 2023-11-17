@@ -32,6 +32,10 @@ typedef enum direction_e {
     UP, DOWN, RIGHT, LEFT
 } direction_e;
 
+typedef enum distance_strategy_e {
+    MANHATTAN, HAMMING
+} distance_strategy_e;
+
 /* Return initialise game_t */
 game_t init_game();
 
@@ -58,7 +62,7 @@ position_t get_real_position(const uint8_t);
 void swap_position(game_t *, position_t, position_t);
 
 /* Calculate heristic score */
-uint8_t heristic(const game_t);
+uint8_t heristic(const game_t, const distance_strategy_e distance_strategy);
 
 /* Solve game 
    Return number swap */

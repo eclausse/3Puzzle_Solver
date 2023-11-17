@@ -115,7 +115,7 @@ uint8_t is_same_game(const game_t g1, const game_t g2) {
 }
 
 uint8_t is_solved_game(const game_t g){
-    return heristic(g) == 0;
+    return heristic(g, MANHATTAN) == 0;
 }
 
 position_t get_real_position(const uint8_t number) {
@@ -124,11 +124,16 @@ position_t get_real_position(const uint8_t number) {
     return solved_game[number - 1];
 }
 
-uint8_t manhattan(position_t a, position_t b) {
+static uint8_t manhattan(const position_t a, const position_t b) {
     return abs(a.x - b.x) + abs(a.y - b.y);
 }
 
-uint8_t heristic(const game_t g) {
+static uint8_t hamming(const uint8_t number, const position_t a) {
+    position_t r = get_real_position(number);
+    return !(r.x == a.x && r.y == a.y);
+}
+
+static uint8_t heristic_manhattan(const game_t g) {
     uint8_t score_total = 0, value, score_temp;
     position_t wanted_position;
 
@@ -138,19 +143,29 @@ uint8_t heristic(const game_t g) {
         {
             value = g.node[i][j];
             wanted_position = get_real_position(value);
-            score_temp = abs(i - wanted_position.x + 1) + abs(j - wanted_position.y + 1);
+            score_temp = manhattan((position_t){i+1, j+1}, wanted_position);
             score_total += score_temp;
-
-            #ifdef DEBUG 
-            printf("[%d] : | %ld - %d | + | %ld - %d| = %d\n", value, i+1, wanted_position.x, j+1, wanted_position.y, score_temp);
-            #endif
         }
     }
-    #ifdef DEBUG
-    printf("total = %d\n", score_total);
-    #endif
-
     return score_total;
+}
+
+static uint8_t heristic_hamming(const game_t g) {
+    uint8_t score_total = 0;
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        for (size_t j = 0; j < 3; j++)
+        {
+            score_total += hamming(g.node[i][j], (position_t){i+1,j+1});;
+        }
+    }
+    return score_total;
+}
+
+uint8_t heristic(const game_t g, const distance_strategy_e distance_strategy) {
+    if(distance_strategy == MANHATTAN) return heristic_manhattan(g);
+    return heristic_hamming(g);
 }
 
 uint8_t solve(game_t * g) {

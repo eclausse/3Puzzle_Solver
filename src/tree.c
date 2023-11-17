@@ -73,7 +73,7 @@ tree_t * create_tree_part(const game_t game, direction_e direction, tree_t * par
         new_tree->g = 1;
     else 
         new_tree->g = parent->g + 1;
-    new_tree->h = heristic(*new_tree->game);
+    new_tree->h = heristic(*new_tree->game, MANHATTAN);
     new_tree->f = new_tree->g + new_tree->h;
 
     new_tree->visited = 0;
@@ -85,7 +85,7 @@ tree_t * create_root(const game_t g) {
     tree_t * root = init_tree();
 
     *root->game = g;
-    root->h = heristic(g);
+    root->h = heristic(g, MANHATTAN);
     root->f = root->h;
 
     position_t position_empty =  get_empty_position(g);
