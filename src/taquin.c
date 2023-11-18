@@ -190,6 +190,7 @@ uint8_t solve(game_t * g, const distance_strategy_e distance_strategy) {
 
     /* Display solution */
     printf("\n\nSolution found ! \nExplored possibilities: %d\n", explored_possibilities);
+    printf("Number of swap: %d\n", best_possibility->g);
     display_path_tree_t(best_possibility);
 
     free_tree_t(possibilities);

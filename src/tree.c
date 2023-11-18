@@ -133,7 +133,6 @@ void display_tree_t(const tree_t * const t) {
 static void display_path(const tree_t * const t) {
     if (!t) return;
     display_path(t->parent);
-    printf("\n");
     display_game(*t->game);
 }
 
