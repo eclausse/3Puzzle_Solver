@@ -31,7 +31,7 @@ tree_t * init_tree() {
     return t;
 }
 
-tree_t * create_tree_part(const game_t game, direction_e direction, tree_t * parent, const distance_strategy_e distance_strategy) {
+static tree_t * create_tree_part(const game_t game, direction_e direction, tree_t * parent, const distance_strategy_e distance_strategy) {
     position_t position_empty =  get_empty_position(game);
 
     /* Get swap node position */
