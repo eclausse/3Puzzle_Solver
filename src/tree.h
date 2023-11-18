@@ -10,6 +10,7 @@
 
 // Forward declaration to solve circular dependency
 typedef struct game_t game_t;
+typedef enum distance_strategy_e distance_strategy_e;
 
 /* Define g score for first game */
 #define ROOT_G_SCORE 0
@@ -31,10 +32,10 @@ struct tree_t
 tree_t * init_tree();
 
 /* Return tree_t from a game */
-tree_t * create_root(const game_t);
+tree_t * create_root(const game_t, const distance_strategy_e);
 
 /* Populate childrens tree_t node */
-void populate_tree(tree_t *);
+void populate_tree(tree_t *, const distance_strategy_e);
 
 /* Display a single tree_t */
 void display_single_tree_t(const tree_t * const t);

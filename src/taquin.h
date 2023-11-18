@@ -64,8 +64,8 @@ void swap_position(game_t *, position_t, position_t);
 /* Calculate heristic score */
 uint8_t heristic(const game_t, const distance_strategy_e distance_strategy);
 
-/* Solve game 
+/* Solve game with A* using distance_strategy as heristic
    Return number swap */
-uint8_t solve(game_t *);
+uint8_t solve(game_t *, const distance_strategy_e);
 
 #endif

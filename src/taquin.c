@@ -168,19 +168,19 @@ uint8_t heristic(const game_t g, const distance_strategy_e distance_strategy) {
     return heristic_hamming(g);
 }
 
-uint8_t solve(game_t * g) {
+uint8_t solve(game_t * g, const distance_strategy_e distance_strategy) {
     assert(g);
     uint16_t explored_possibilities = 0;
     int tmp;
 
     /* Create possiblibilites tree_t */
-    tree_t * possibilities = create_root(*g);
+    tree_t * possibilities = create_root(*g, distance_strategy);
     tree_t * best_possibility = NULL;
 
     while (best_possibility = search_min_f(possibilities))
     {
         if (is_solved_game(* best_possibility->game)) break;
-        populate_tree(best_possibility);
+        populate_tree(best_possibility, distance_strategy);
         best_possibility->visited = 1;
         explored_possibilities++;
     }

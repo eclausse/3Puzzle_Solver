@@ -8,7 +8,7 @@ tree_t * init_tree() {
         exit(1);
     }
 
-    tree_t * parent = NULL;
+    t->parent = NULL;
 
     game_t * g = malloc(sizeof(game_t));
     if (!g) {
@@ -31,7 +31,7 @@ tree_t * init_tree() {
     return t;
 }
 
-tree_t * create_tree_part(const game_t game, direction_e direction, tree_t * parent) {
+tree_t * create_tree_part(const game_t game, direction_e direction, tree_t * parent, const distance_strategy_e distance_strategy) {
     position_t position_empty =  get_empty_position(game);
 
     /* Get swap node position */
@@ -58,11 +58,13 @@ tree_t * create_tree_part(const game_t game, direction_e direction, tree_t * par
     /* Swap game node */
     game_t new_game = game;
     swap_position(&new_game, position_empty, position_to_swap);
+    /* Ensure that no loop swap are made */
+    /* e.g parent swap right and child swap left */
     if (parent && parent->parent && is_same_game(* (parent->parent->game), new_game)) return NULL;
 
     tree_t * new_tree = init_tree();
 
-    /* Copy parent game */
+    /* Copy modified parent game */
     *(new_tree->game) = new_game;
 
     /* Link parent tree_t */
@@ -81,7 +83,7 @@ tree_t * create_tree_part(const game_t game, direction_e direction, tree_t * par
     return new_tree;
 }
 
-tree_t * create_root(const game_t g) {
+tree_t * create_root(const game_t g, const distance_strategy_e distance_strategy) {
     tree_t * root = init_tree();
 
     *root->game = g;
@@ -89,42 +91,37 @@ tree_t * create_root(const game_t g) {
     root->f = root->h;
 
     position_t position_empty =  get_empty_position(g);
-    if (position_empty.x != 1) root->child[0] = create_tree_part(g, UP, root);
-    if (position_empty.x != 3) root->child[1] = create_tree_part(g, DOWN, root);
-    if (position_empty.y != 1) root->child[2] = create_tree_part(g, LEFT, root);
-    if (position_empty.y != 3) root->child[3] = create_tree_part(g, RIGHT, root);
+    if (position_empty.x != 1) root->child[0] = create_tree_part(g, UP, root, distance_strategy);
+    if (position_empty.x != 3) root->child[1] = create_tree_part(g, DOWN, root, distance_strategy);
+    if (position_empty.y != 1) root->child[2] = create_tree_part(g, LEFT, root, distance_strategy);
+    if (position_empty.y != 3) root->child[3] = create_tree_part(g, RIGHT, root, distance_strategy);
     
     return root;
 }
 
-void populate_tree(tree_t * t) {
+void populate_tree(tree_t * t, const distance_strategy_e distance_strategy) {
     assert(t);
     assert(t->game);
 
     game_t game = *t->game;
     position_t position_empty =  get_empty_position(game);
-    if (position_empty.x != 1) t->child[0] = create_tree_part(game, UP, t);
-    if (position_empty.x != 3) t->child[1] = create_tree_part(game, DOWN, t);
-    if (position_empty.y != 1) t->child[2] = create_tree_part(game, LEFT, t);
-    if (position_empty.y != 3) t->child[3] = create_tree_part(game, RIGHT, t);
+    if (position_empty.x != 1) t->child[0] = create_tree_part(game, UP, t, distance_strategy);
+    if (position_empty.x != 3) t->child[1] = create_tree_part(game, DOWN, t, distance_strategy);
+    if (position_empty.y != 1) t->child[2] = create_tree_part(game, LEFT, t, distance_strategy);
+    if (position_empty.y != 3) t->child[3] = create_tree_part(game, RIGHT, t, distance_strategy);
 }
 
 void display_single_tree_t(const tree_t * const t) {
-    #ifdef DEBUG
-    printf("\nNODE: \n");
-    if(t->parent) {
-        printf("Parent:");
-        display_game(*t->parent->game);
-    }
-    #endif
+    if (!t) return;
     printf("Tree: ");
-    display_game(*t->game);
+    if (t->game) display_game(*t->game);
     printf("Visited: %s\n", t->visited ? "True" : "False");
     printf("Scores: \n");
     printf("G(x) = %d | H(x) = %d | F(x) = %d\n", t->g, t->h, t->f);
 }
 
 void display_tree_t(const tree_t * const t) {
+    if (!t) return;
     display_single_tree_t(t);
     
     for (size_t i = 0; i < 4; i++)
@@ -134,18 +131,21 @@ void display_tree_t(const tree_t * const t) {
 }
 
 void free_tree_t(tree_t * t) {
+    if (!t) return;
     for (size_t i = 0; i < 4; i++)
     {
         if(t->child[i]) free_tree_t(t->child[i]);
     }
     free(t->game);
+    t->game = NULL;
     free(t);
+    t = NULL;
 }
 
 tree_t *search_min_f(tree_t * t) {
     assert(t);
     tree_t *t1 = NULL; /* Contain child with min f */
-    tree_t *t2 = NULL; /* Temporary child*/
+    tree_t *t2 = NULL; /* Temporary child */
 
     for (size_t i = 0; i < 4; i++)
     {

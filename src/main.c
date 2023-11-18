@@ -7,7 +7,7 @@ int main(char** args, int argc) {
     game_t g = init_game();
     randomize_game(&g);
 
-    solve(&g);
+    solve(&g, MANHATTAN);
 
     return 0;
 }
