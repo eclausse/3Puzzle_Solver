@@ -38,15 +38,18 @@ tree_t * create_root(const game_t, const distance_strategy_e);
 void populate_tree(tree_t *, const distance_strategy_e);
 
 /* Display a single tree_t */
-void display_single_tree_t(const tree_t * const t);
+void display_single_tree_t(const tree_t * const );
 
 /* Display the entiere tree_t */
 void display_tree_t(const tree_t * const);
 
+/* Display path from root to the given tree  */
+void display_path_tree_t(const tree_t * const);
+
 /* Return tree_t with min f score and not visited or NULL */
-tree_t *search_min_f(tree_t * t);
+tree_t *search_min_f(tree_t *);
 
 /* Free tree allocation must be called after init_tree, create_root, populate_tree*/
-void free_tree_t(tree_t * t);
+void free_tree_t(tree_t *);
 
 #endif

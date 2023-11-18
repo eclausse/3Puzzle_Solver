@@ -130,6 +130,18 @@ void display_tree_t(const tree_t * const t) {
     }
 }
 
+static void display_path(const tree_t * const t) {
+    if (!t) return;
+    display_path(t->parent);
+    printf("\n");
+    display_game(*t->game);
+}
+
+void display_path_tree_t(const tree_t * const t) {
+    printf("Path: \n");
+    display_path(t);
+}
+
 void free_tree_t(tree_t * t) {
     if (!t) return;
     for (size_t i = 0; i < 4; i++)

@@ -185,9 +185,12 @@ uint8_t solve(game_t * g, const distance_strategy_e distance_strategy) {
         explored_possibilities++;
     }
 
-    display_tree_t(possibilities);
+    /* Show entire tree */
+    //display_tree_t(possibilities);
+
+    /* Display solution */
     printf("\n\nSolution found ! \nExplored possibilities: %d\n", explored_possibilities);
-    display_single_tree_t(best_possibility);
+    display_path_tree_t(best_possibility);
 
     free_tree_t(possibilities);
     

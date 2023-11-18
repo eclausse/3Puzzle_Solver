@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "taquin.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }
