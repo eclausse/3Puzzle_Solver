@@ -14,11 +14,13 @@
 /* Number of swap to get a random game */
 #define SHUFFLE 100
 
+#define N 3
+
 typedef struct game_t game_t;
 
 struct game_t
 {
-    uint8_t node[3][3];
+    uint8_t node[N][N];
 };
 
 /* Coordinates of nodes in [1, 3]*/

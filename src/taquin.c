@@ -10,9 +10,9 @@ static const position_t solved_game[9] = {
 game_t init_game() {
     game_t g;
     uint8_t count = 1;
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < N; i++)
     {
-        for (size_t j = 0; j < 3; j++)
+        for (size_t j = 0; j < N; j++)
         {
             g.node[i][j] = count++;
         }
@@ -24,9 +24,9 @@ game_t init_game() {
 
 void display_game(const game_t g) {
     printf("\n-------------\n");
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < N; i++)
     {
-        for (size_t j = 0; j < 3; j++)
+        for (size_t j = 0; j < N; j++)
         {
             if(g.node[i][j] != 0) printf("| %d ", g.node[i][j]);
             else printf("|   ");
@@ -36,9 +36,9 @@ void display_game(const game_t g) {
 }
 
 position_t get_empty_position(const game_t g) {
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < N; i++)
     {
-        for (size_t j = 0; j < 3; j++)
+        for (size_t j = 0; j < N; j++)
         {
             /* Empty found return it's position*/
             if (!g.node[i][j]) return (position_t){++i, ++j};
@@ -60,7 +60,7 @@ static position_t get_valid_random_swap_node(const position_t position_empty) {
             return (position_t){position_empty.x - 1, position_empty.y};
         }
 
-        if(selected_direction == DOWN && position_empty.x != 3) {
+        if(selected_direction == DOWN && position_empty.x != N) {
             return (position_t){position_empty.x + 1, position_empty.y};
         }
 
@@ -68,7 +68,7 @@ static position_t get_valid_random_swap_node(const position_t position_empty) {
             return (position_t){position_empty.x, position_empty.y - 1};
         }
 
-        if(selected_direction == RIGHT && position_empty.y != 3) {
+        if(selected_direction == RIGHT && position_empty.y != N) {
             return (position_t){position_empty.x, position_empty.y + 1};
         }
     }
@@ -76,7 +76,7 @@ static position_t get_valid_random_swap_node(const position_t position_empty) {
 
 void swap_position(game_t * g, position_t p1, position_t p2) {
     assert(p1.x > 0 && p2.x > 0 && p1.y > 0 && p2.y > 0);
-    assert(p1.x < 4 && p2.x < 4 && p1.y < 4 && p2.y < 4);
+    assert(p1.x < N+1 && p2.x < N+1 && p1.y < N+1 && p2.y < N+1);
 
     uint8_t swap;
     /* Swap both nodes */
@@ -104,9 +104,9 @@ void randomize_game(game_t * g) {
 }
 
 uint8_t is_same_game(const game_t g1, const game_t g2) {
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < N; i++)
     {
-        for (size_t j = 0; j < 3; j++)
+        for (size_t j = 0; j < N; j++)
         {
             if (g1.node[i][j] != g2.node[i][j]) return 0;
         }
@@ -137,9 +137,9 @@ static uint8_t heristic_manhattan(const game_t g) {
     uint8_t score_total = 0, value, score_temp;
     position_t wanted_position;
 
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < N; i++)
     {
-        for (size_t j = 0; j < 3; j++)
+        for (size_t j = 0; j < N; j++)
         {
             value = g.node[i][j];
             wanted_position = get_real_position(value);
@@ -153,9 +153,9 @@ static uint8_t heristic_manhattan(const game_t g) {
 static uint8_t heristic_hamming(const game_t g) {
     uint8_t score_total = 0;
 
-    for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < N; i++)
     {
-        for (size_t j = 0; j < 3; j++)
+        for (size_t j = 0; j < N; j++)
         {
             score_total += hamming(g.node[i][j], (position_t){i+1,j+1});;
         }

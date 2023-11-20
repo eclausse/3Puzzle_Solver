@@ -10,6 +10,7 @@ distance_strategy_e menu() {
     do {
         printf("1. Manhattan\n");
         printf("2. Hamming\n");
+        printf("Enter 1 or 2: ");
     } while(!fgets(buffer, sizeof(buffer), stdin) || sscanf(buffer, "%d", &i) != 1 || !(i == 1 || i == 2));
     return i == 1 ? MANHATTAN : HAMMING;
 }

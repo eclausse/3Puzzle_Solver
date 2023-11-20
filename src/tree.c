@@ -92,9 +92,9 @@ tree_t * create_root(const game_t g, const distance_strategy_e distance_strategy
 
     position_t position_empty =  get_empty_position(g);
     if (position_empty.x != 1) root->child[0] = create_tree_part(g, UP, root, distance_strategy);
-    if (position_empty.x != 3) root->child[1] = create_tree_part(g, DOWN, root, distance_strategy);
+    if (position_empty.x != N) root->child[1] = create_tree_part(g, DOWN, root, distance_strategy);
     if (position_empty.y != 1) root->child[2] = create_tree_part(g, LEFT, root, distance_strategy);
-    if (position_empty.y != 3) root->child[3] = create_tree_part(g, RIGHT, root, distance_strategy);
+    if (position_empty.y != N) root->child[3] = create_tree_part(g, RIGHT, root, distance_strategy);
     
     return root;
 }
@@ -106,9 +106,9 @@ void populate_tree(tree_t * t, const distance_strategy_e distance_strategy) {
     game_t game = *t->game;
     position_t position_empty =  get_empty_position(game);
     if (position_empty.x != 1) t->child[0] = create_tree_part(game, UP, t, distance_strategy);
-    if (position_empty.x != 3) t->child[1] = create_tree_part(game, DOWN, t, distance_strategy);
+    if (position_empty.x != N) t->child[1] = create_tree_part(game, DOWN, t, distance_strategy);
     if (position_empty.y != 1) t->child[2] = create_tree_part(game, LEFT, t, distance_strategy);
-    if (position_empty.y != 3) t->child[3] = create_tree_part(game, RIGHT, t, distance_strategy);
+    if (position_empty.y != N) t->child[3] = create_tree_part(game, RIGHT, t, distance_strategy);
 }
 
 void display_single_tree_t(const tree_t * const t) {
