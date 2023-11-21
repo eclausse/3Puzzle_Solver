@@ -1,4 +1,6 @@
-# Projet 3-Puzzle A* solver
+# Project 3-Puzzle A* solver
+
+A simple A* solver for 3-Puzzle game.
 
 # Dependencies
 
@@ -37,12 +39,13 @@ Enter 1 or 2:
 
 ### Solution
 
-You will then get a solution for a random 3-Puzzle starting from a random game to the solution found with A*.
+You will then get a solution for a random 3-Puzzle.  
+Starting from a random game to the solution found with A*.
 
 ```
 Solution found ! 
-Explored possibilities: 562
-Number of swap: 18
+Explored possibilities: ...
+Number of swap: ...
 Path: 
 
 -------------
@@ -64,5 +67,6 @@ Path:
 -------------
 ```
 
-# Auteur
+# Author
+
 Evan Clausse ING2 GSI Groupe 1
